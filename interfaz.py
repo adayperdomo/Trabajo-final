@@ -73,11 +73,11 @@ class ApostarScreen(Screen):
         if event.button.id == "volver":
             self.app.push_screen(MainScreen())
         elif event.button.id == "insertar":
-            self.app.mytable = "apostar"
+            self.app = "apostar"
             self.app.pop_screen()
             self.app.push_screen(InsertarScreen())
         elif event.button.id == "borrar":
-            self.app.mytable = "apostar"
+            self.app = "apostar"
             self.app.pop_screen()
             self.app.push_screen(BorrarScreen())
         elif event.button.id == "aceptar":
@@ -97,7 +97,6 @@ class PartidoScreen(Screen):
         if event.button.id == "volver":
             self.app.push_screen(MainScreen())
         elif event.button.id == "insertar":
-
             self.app.pop_screen()
             self.app.push_screen(InsertarScreen())
         elif event.button.id == "borrar":
@@ -107,7 +106,7 @@ class PartidoScreen(Screen):
             self.app.pop_screen()
             self.app.push_screen(ResultadoScreen())
 
-class ResultadoScreen():
+class ResultadoScreen(Screen):
     def compose(self) -> ComposeResult:
         yield Button("Insertar", id="insertar")
         yield Button("Borrar", id="borrar")
@@ -134,11 +133,11 @@ class InsertarScreen(Screen):
     def on_button_pressed(self, event: Button.Pressed) -> None:
         if event.button.id == "volver":
             self.app.pop_screen()
-        elif event.button.id == "aceptar" and self.app.mytable == "apuesta":
+        elif event.button.id == "aceptar" and self.app == "apuesta":
             self.app.ca.insertar(Apuesta(self.query_one(Input).value))
-        elif event.button.id == "aceptar" and self.app.mytable == "partido":
+        elif event.button.id == "aceptar" and self.app == "partido":
             self.app.ct.insertar(Partido(self.query_one(Input).value))
-        elif event.button.id == "aceptar" and self.app.mytable == "resultado":
+        elif event.button.id == "aceptar" and self.app == "resultado":
             self.app.ch.insertar(Resultado(self.query_one(Input).value))
 
     def _on_mount(self) -> None:
@@ -156,15 +155,12 @@ class BorrarScreen(Screen):
     def on_button_pressed(self, event: Button.Pressed) -> None:
         if event.button.id == "volver":
             self.app.pop_screen()
-        elif event.button.id == "aceptar" and self.app.mytable == "apuesta":
+        elif event.button.id == "aceptar" and self.app == "apuesta":
             self.app.ca.borrar(Apuesta(self.query_one(Input).value))
-        elif event.button.id == "aceptar" and self.app.mytable == "partido":
+        elif event.button.id == "aceptar" and self.app == "partido":
             self.app.ct.borrar(Partido(self.query_one(Input).value))
-        elif event.button.id == "aceptar" and self.app.mytable == "resultado":
+        elif event.button.id == "aceptar" and self.app == "resultado":
             self.app.ch.borrar(Resultado(self.query_one(Input).value))  
-
-    def _on_mount(self) -> None:
-        self.title = "Borrar datos"
 
 
 if __name__ == "__main__":
